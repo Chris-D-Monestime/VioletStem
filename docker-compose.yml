@@ -1,0 +1,14 @@
+services:
+  violetstem:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: production
+      MAX_UPLOAD_MB: 50
+      MAX_CONCURRENT_JOBS: 2
+      RETENTION_SECONDS: 3600
+    volumes:
+      - violet-data:/srv/violetstem/data
+volumes:
+  violet-data:

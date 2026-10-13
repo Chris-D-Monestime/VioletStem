@@ -1,0 +1,7 @@
+# GPU variant (needs NVIDIA GPU + driver supporting CUDA 12.1).
+# Replaces the CPU torch in requirements-ml.txt. Revert: pip install -r requirements-ml.txt
+--index-url https://download.pytorch.org/whl/cu121
+--extra-index-url https://pypi.org/simple/
+torch==2.5.1
+torchaudio==2.5.1
+demucs==4.0.1

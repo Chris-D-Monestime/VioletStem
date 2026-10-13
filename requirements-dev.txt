@@ -1,0 +1,4 @@
+# Dev/verification tools only (NOT needed to run the app):
+playwright==1.63.0
+pillow==12.3.0
+psutil==7.1.3

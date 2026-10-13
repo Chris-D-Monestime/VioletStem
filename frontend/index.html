@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VioletStem — Separate Vocals & Instrumental with AI</title>
+<meta name="description" content="Separate vocals from instrumentals with AI. Upload your track, preview results, download stems.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23100D1B'/%3E%3Cpath d='M40 10v26.5a8 8 0 1 0 4 6.9V22l10-2.5V32a8 8 0 1 0 4 6.9V12L40 10z' fill='%238B5CF6'/%3E%3Cpath d='M14 44l4-3 4 3-4 2zM46 48l3-2 3 2-3 2z' fill='%23C4B5FD'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#upload">Skip to upload</a>
+<header class="nav" role="banner">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="VioletStem home">
+      <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#171225" stroke="#302342"/><path d="M40 10v26.5a8 8 0 1 0 4 6.9V22l10-2.5V32a8 8 0 1 0 4 6.9V12L40 10z" fill="#8B5CF6"/><path d="M14 42h4v8h-4zM22 38h4v12h-4zM30 42h4v8h-4z" fill="#C4B5FD"/></svg>
+      <span>VioletStem</span>
+    </a>
+    <nav aria-label="Primary">
+      <button id="menuBtn" class="menu-btn" aria-expanded="false" aria-controls="menu">Menu</button>
+      <div id="menu" class="menu">
+        <a href="#top">Home</a>
+        <a href="#how">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#upload" class="cta">Separate Audio</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero wrap">
+    <div class="hero-txt">
+      <p class="pill" id="enginePill">Checking audio engine…</p>
+      <h1>Your Music.<br>Two Perfect Stems.</h1>
+      <p class="lede">Separate vocals from instrumentals with AI. Upload your track, preview the results, and download the audio you need.</p>
+      <p class="note">Results depend on the source recording and the active engine. No account needed.</p>
+      <div class="hero-cta">
+        <a class="btn primary" href="#upload">Separate My Song</a>
+        <a class="btn ghost" href="#how">How It Works</a>
+      </div>
+    </div>
+    <div class="hero-vis" aria-hidden="true">
+      <svg viewBox="0 0 400 160" class="wave" role="img" aria-label="Audio waveform decoration">
+        <g stroke="#8B5CF6" stroke-width="4" stroke-linecap="round">
+          <line x1="20" y1="60" x2="20" y2="100" opacity="0.55"/><line x1="40" y1="45" x2="40" y2="115" opacity="0.8"/><line x1="60" y1="55" x2="60" y2="105" opacity="0.6"/><line x1="80" y1="30" x2="80" y2="130" opacity="0.95"/><line x1="100" y1="50" x2="100" y2="110" opacity="0.7"/><line x1="120" y1="20" x2="120" y2="140" opacity="1"/><line x1="140" y1="45" x2="140" y2="115" opacity="0.8"/><line x1="160" y1="60" x2="160" y2="100" opacity="0.55"/><line x1="180" y1="35" x2="180" y2="125" opacity="0.9"/><line x1="200" y1="15" x2="200" y2="145" stroke="#A855F7" opacity="1"/><line x1="220" y1="40" x2="220" y2="120" opacity="0.85"/><line x1="240" y1="58" x2="240" y2="102" opacity="0.6"/><line x1="260" y1="30" x2="260" y2="130" opacity="0.95"/><line x1="280" y1="50" x2="280" y2="110" opacity="0.7"/><line x1="300" y1="62" x2="300" y2="98" opacity="0.5"/><line x1="320" y1="45" x2="320" y2="115" opacity="0.8"/><line x1="340" y1="58" x2="340" y2="102" opacity="0.6"/><line x1="360" y1="68" x2="360" y2="92" opacity="0.45"/>
+        </g>
+      </svg>
+      <div class="glow"></div>
+    </div>
+  </section>
+
+  <section id="upload" class="wrap">
+    <div class="card upload-card">
+      <h2>Upload your song</h2>
+      <div id="drop" class="drop" tabindex="0" role="button" aria-label="Select an MP3 file">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="1.8" aria-hidden="true"><path d="M12 16V4m0 0l-4 4m4-4l4 4"/><path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg>
+        <p class="drop-t">Drop your MP3 here</p>
+        <p class="drop-s">or <button type="button" id="browseBtn" class="link">browse files</button></p>
+        <p class="drop-m" id="limitsLine">MP3 only · max 50 MB · files processed temporarily</p>
+        <input type="file" id="fileInput" accept=".mp3,audio/mpeg" hidden>
+      </div>
+      <p class="privacy">Your file is uploaded securely, processed temporarily, and auto-deleted after the retention period. Only upload audio you have the rights to process.</p>
+      <div id="fileInfo" class="fileinfo" hidden>
+        <div><strong id="fName"></strong><span id="fMeta" class="muted"></span></div>
+        <audio id="preview" controls preload="metadata"></audio>
+        <div class="row">
+          <button id="removeBtn" class="btn ghost sm">Remove</button>
+          <button id="goBtn" class="btn primary">Separate Vocals &amp; Instrumental</button>
+        </div>
+        <p id="uploadErr" class="err" role="alert" hidden></p>
+      </div>
+      <div id="proc" class="proc" hidden>
+        <div class="proc-top"><span id="stageLabel">Preparing…</span><button id="cancelBtn" class="btn ghost sm">Cancel</button></div>
+        <div class="bar" role="progressbar" aria-label="Processing status" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="barFill"></div></div>
+        <p id="stageMsg" class="muted"></p>
+        <div class="eq" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+        <p id="procErr" class="err" role="alert" hidden></p>
+        <button id="retryBtn" class="btn ghost sm" hidden>Retry without reloading</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="results" class="wrap" hidden>
+    <h2>Your stems</h2>
+    <p class="muted" id="resMeta"></p>
+    <label class="sync"><input type="checkbox" id="syncBox"> Sync playback positions (compare easily)</label>
+    <div class="stems">
+      <article class="card stem vocals">
+        <div class="stem-h"><span class="ico" aria-hidden="true">🎤</span><div><h3>Vocals</h3><p class="muted">Isolated voice from your original song.</p></div></div>
+        <audio id="vocalsAudio" controls preload="metadata"></audio>
+        <p class="muted sm" id="vocalsMeta"></p>
+        <a id="vocalsDl" class="btn primary sm" download>Download Vocals</a>
+      </article>
+      <article class="card stem instr">
+        <div class="stem-h"><span class="ico" aria-hidden="true">🎹</span><div><h3>Instrumental</h3><p class="muted">The accompaniment with vocals removed.</p></div></div>
+        <audio id="instrAudio" controls preload="metadata"></audio>
+        <p class="muted sm" id="instrMeta"></p>
+        <a id="instrDl" class="btn primary sm" download>Download Instrumental</a>
+      </article>
+    </div>
+    <a id="zipDl" class="btn zip" download>Download Both Files (.ZIP)</a>
+    <div class="row"><button id="againBtn" class="btn ghost sm">Process another song</button></div>
+  </section>
+
+  <section id="how" class="wrap">
+    <h2>How it works</h2>
+    <div class="grid3">
+      <div class="card"><div class="n">1</div><h3>Upload your song</h3><p class="muted">Drop an MP3. We validate the real audio content on your device and on the server.</p></div>
+      <div class="card"><div class="n">2</div><h3>Let AI separate the audio</h3><p class="muted">A source-separation engine isolates the voice and builds the instrumental from the remaining stems.</p></div>
+      <div class="card"><div class="n">3</div><h3>Preview &amp; download</h3><p class="muted">Play both stems in your browser, then download each WAV or a ZIP with both.</p></div>
+    </div>
+  </section>
+
+  <section id="features" class="wrap">
+    <h2>Features</h2>
+    <ul class="feats">
+      <li>AI-powered vocal separation</li>
+      <li>Independent audio previews</li>
+      <li>Separate WAV downloads</li>
+      <li>Download both tracks as ZIP</li>
+      <li>Responsive on desktop, tablet &amp; mobile</li>
+      <li>Secure temporary file handling</li>
+      <li>Straightforward, no-account workflow</li>
+    </ul>
+  </section>
+
+  <section id="legal" class="wrap">
+    <div class="grid2">
+      <div class="card"><h3>Privacy Policy</h3><p class="muted sm">Files are stored temporarily under unguessable job IDs, never listed publicly, and auto-deleted after the retention period (default 1 hour). No account, no tracking of audio contents. Processing requires CPU on our server; if an external inference provider is configured, audio is transmitted to that provider under its terms — see MODEL.md. You may delete a job anytime to remove its files immediately.</p></div>
+      <div class="card"><h3>Terms of Use</h3><p class="muted sm">VioletStem is a general-purpose audio tool. You are responsible for having the rights or permission to upload and process any material. Do not use it to infringe copyright, circumvent DRM, or unlawfully distribute recordings. Separation quality varies by recording and engine; no accuracy guarantees are made.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="brand sm"><svg width="24" height="24" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#171225" stroke="#302342"/><path d="M40 10v26.5a8 8 0 1 0 4 6.9V22l10-2.5V32a8 8 0 1 0 4 6.9V12L40 10z" fill="#8B5CF6"/></svg><span>VioletStem</span></div>
+    <p class="muted sm">Separate vocals from instrumentals with AI. Upload, preview, download.</p>
+    <nav aria-label="Footer"><a href="#top">Home</a><a href="#how">How it works</a><a href="#features">Features</a><a href="#legal">Privacy &amp; Terms</a></nav>
+    <p class="muted sm">© 2026 VioletStem. Process only audio you have rights to use.</p>
+  </div>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
